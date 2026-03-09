@@ -1,23 +1,15 @@
 import { Card } from '$components/card';
 import { Button } from '$components/button';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-const useCounter = (initial = 0) => {
-  const [count, setCount] = useState(0);
-
-  const increment = useCallback(() => setCount((previous) => previous + 1), []);
-  const decrement = useCallback(() => setCount((previous) => previous - 1), []);
-  const reset = useCallback(() => setCount(0), []);
-
-  return useMemo(
-    () => ({ count, increment, decrement, reset }),
-    [count, increment, decrement, reset],
-  );
-};
 
 export function CounterWidget() {
   console.log('CounterWidget rendered');
-  const { count, increment, decrement, reset } = useCounter();
+
+  const [count, setCount] = useState(0);
+  const onIncrement = useCallback(() => setCount((prev) => prev + 1), []);
+  const onDecrement = useCallback(() => setCount((prev) => prev - 1), []);
+  const onReset = useCallback(() => setCount(0), []);
 
   return (
     <Card className="p-6">
@@ -30,17 +22,17 @@ export function CounterWidget() {
       </p>
 
       <div className="flex items-center justify-center space-x-4">
-        <Button onClick={decrement} variant="secondary">
+        <Button onClick={onDecrement} variant="secondary">
           −
         </Button>
         <span className="text-3xl font-bold text-slate-900 dark:text-slate-100">{count}</span>
-        <Button onClick={increment} variant="secondary">
+        <Button onClick={onIncrement} variant="secondary">
           +
         </Button>
       </div>
 
       <div className="mt-4 flex justify-center">
-        <Button onClick={reset} variant="secondary" size="small">
+        <Button onClick={onReset} variant="secondary" size="small">
           Reset
         </Button>
       </div>
